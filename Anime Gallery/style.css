@@ -1,0 +1,339 @@
+/* Reset de márgenes y paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos para el cuerpo de la página*/
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1c1b1c 0%, #3d3c3d 100%);
+    min-height: 100vh;
+    color: white;
+    overflow-x: hidden; /* Evita scroll horizontal */  
+}
+
+/* Contenedor principal */
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Alinea los textos al inicio */
+    align-items: center;
+    position: relative; /* asegura que las imágenes flotantes estén centradas */
+    padding: 40px 20px; /* un poco de padding */
+    box-sizing: border-box;
+}
+
+/* El texto que tendrá la animación */
+.hover-text {
+    font-size: 3rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    position: relative; /* Para posicionar las imágenes */
+    color: white; /* Color inicial del texto */
+    transition: all 0.3s ease; /* IMPORTANTE: transición suave */
+    opacity: 0.8; /* Ligera transparencia */
+}
+
+.text-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    text-align: center;
+    height: auto; /* Altura automática según el contenido */
+    margin: 0; /* sin margenes extras */
+    padding: 5px 0; /* solo 10px arriba y abajo */
+}
+
+/* Texto principal */
+.main-text .hover-text {
+    font-size: 5rem; /* Más grande */
+    opacity: 1; /* Sin transparencia */
+}
+
+/* Texto secundario */
+.secondary-text .hover-text {
+    font-size: 3rem; /* Tamaño más pequeño */
+    opacity: 0.5; /* Más transparente */
+    transition: transform 0.5s ease, opacity 0.3 ease;
+}
+
+/* Animación cuando se pasa el cursor sobre el texto */
+.secondary-text .hover-text:hover {
+    transform: scale(1.3); /* Se mueve hacia arriba y se agranda */
+    opacity: 1; /* Menos transparente */
+    color: #664caf !important; /* Color morado para diferenciarlo */
+}
+
+.main-text .hover-text:hover {
+    transform: scale(1.2); /* Se agranda ligeramente */
+    z-index: 3; /* Asegura que esté por encima de las imágenes */
+}
+
+/* Efecto en el texto cuando pasas el cursor */
+.hover-text:hover {
+    color: #ff6b6b !important; /* Cambia a color rojizo */
+    transform: scale(1.05); /* Se agranda ligeramente */
+}
+
+/* Función cambio de sección: Este código debe ir en un archivo .js, no en el CSS */
+
+/* Contenedor de las imágenes flotantes */
+.floating-images {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0; /* invisible al principio */
+    visibility: hidden; /* completamente oculto */
+    transition: all 0.3s ease; /* Transición suave */
+    pointer-events: none; /* No interfiere con el mouse */
+    z-index: 1000; /* Se muestra por encima */
+}
+
+/* Cuando pasas el cursor sobre el texto, las imágenes aparecen */
+.hover-text:hover .floating-images {
+    opacity: 1; /* Se hace visible */
+    visibility: visible; /* Aparece */
+}
+
+/* Cada imagen individual - estado base */
+.floating-image {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+/* Las imágenes dentro de cada contenedor */
+.floating-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen cubra todo el contenedor */
+}
+
+/* POSICIONES DE LAS IMÁGENES */
+.floating-image:nth-child(1) {
+    top: -150px;    /* arriba a la izquierda */
+    left: -100px;   
+    transform: scale(0) rotate(-45deg);
+}
+
+.floating-image:nth-child(2) {
+    top: -90px;    /* arriba a la derecha */
+    right: -170px;  
+    transform: scale(0) rotate(45deg);
+}
+
+.floating-image:nth-child(3) {
+    bottom: -100px; /* abajo a la izquierda */
+    left: -170px;   
+    transform: scale(0) rotate(-30deg);
+}
+
+/* ANIMACIONES AL HACER HOVER */
+.hover-text:hover .floating-image:nth-child(1) {
+    transform: scale(1) rotate(0deg);
+    transition: all 0.6s ease;
+}
+
+.hover-text:hover .floating-image:nth-child(2) {
+    transform: scale(1) rotate(0deg);
+    transition: all 0.6s ease 0.2s; /* retraso de 0.2s */
+}
+
+.hover-text:hover .floating-image:nth-child(3) {
+    transform: scale(1) rotate(0deg);
+    transition: all 0.6s ease 0.4s; /* retraso de 0.4s */
+}
+
+/* Efecto hover individual en cada imagen */
+.floating-image:hover {
+    transform: scale(1.1) !important;
+    z-index: 1001;
+}
+
+/* Transiciones básicas entre secciones */
+.anime-section {
+    width: 100%;
+    margin: 10px 0;
+    transition: transform 0.8s ease;
+    text-align:center;
+}
+
+/* Sección activa */
+.anime-section.active {
+    transform: translateX(0);
+}
+/* Las secciones que suben se mueven hacia arriba */
+.anime-section.slide-up {
+    transform: translateY(-100vh);
+} 
+
+/* Posiciones especiales para Attack of Titans */
+.secondary-text .floating-image:nth-child(1) {
+    top: 20px; /* Arriba izquierda */
+    left: -120px;
+    transform: scale(0) rotate(-30deg);
+}
+
+.secondary-text .floating-image:nth-child(2) {
+    top: -100px; /* Arriba derecha */
+    right: -70px;
+    transform: scale(0) rotate(30deg);
+}
+
+.secondary-text .floating-image:nth-child(3) {
+    bottom: -100px;
+    left: 50px;
+    transform: scale(0) rotate(15deg);
+}
+
+/* Animaciones al hacer hover en Attack of Titans */
+.secondary-text .hover-text:hover .floating-image:nth-child(1) {
+    transform: scale(1) rotate(0deg);
+    transition: all 0.6s ease;
+}
+
+.secondary-text .hover-text:hover .floating-image:nth-child(2) {
+    transform: scale(1) rotate(0deg);
+    transition: all 0.6s ease 0.2s;
+}
+
+.secondary-text .hover-text:hover .floating-image:nth-child(3) {
+    transform: scale(1) rotate(0deg);
+    transition: all 0.6s ease 0.4s;
+}
+
+/* Efectos para el intercambio de posiciones */
+
+/* Cuando el texto principal se convierte en menú sube */
+.text-item.menu-position {
+    transform: translateY(-80px); /* sube 80px */
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.text-item.menu-position .hover-text {
+    font-size: 2.2rem !important; /* se hace más pequeño */
+    opacity: 0.8; /* más transparente */
+    color: #bbb; /* color grisaceo*/
+}
+
+/* cuando el texto secundario se convierte en principal (centro) */
+.text-item.main-position {
+    transform: translateY(0); /* se centra */
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 10; /* por encima de otros */
+}
+
+.text-item.main-position .hover-text {
+    font-size: 5rem !important; /* se hace grande como el principal */
+    opacity: 1 !important; /* completamente visible */
+    color: white; /* color blanco */
+}
+
+/* efecto especial de transición */
+.text-item.transitioning {
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
+    
+/* Estilos para el tercer texto - my dress up darling! */
+
+/* texto base del tercer anime */
+.third-text .hover-text {
+    font-size: 2rem; /* tamaño mas pequeño */
+    opacity: 0.5; /* más transparente */
+    transition: transform 0.5s ease, opacity 0.3s ease;
+}
+
+/* Hover especifico para My dress up darling! - color amarillo */
+.third-text .hover-text:hover {
+    color: #fff47e !important; /* color amarillo */
+    transform: scale(1.3);
+    opacity: 1;
+}
+
+/* posiciones especiales para my dress up darling! */
+.third-text .floating-image:nth-child(1) {
+    top: -120px; /* arriba izquierda */
+    left: -130px;
+    transform: scale(0) rotate(-20deg);
+}
+
+.third-text .floating-image:nth-child(2) {
+    top: -120px; /* Arriba derecha */
+    right: -190px;
+    transform: scale(0) rotate(25deg);
+}
+
+.third-text .floating-image:nth-child(3) {
+    bottom: -120px; /* Abajo centro-derecha */
+    left: -40px;
+    transform: scale(0) rotate(10deg);
+}
+
+/* Animaciones al hacer hover en My dress up Darling! */
+.third-text .hover-text:hover .floating-image:nth-child(1) {
+    transform: scale(1) rotate(0deg);
+    transition: all 0.6s ease;
+}
+
+.third-text .hover-text:hover .floating-image:nth-child(2) {
+    transform: scale(1) rotate(0deg);
+    transition: all 0.6s ease 0.2s;
+}
+
+.third-text .hover-text:hover .floating-image:nth-child(3) {
+    transform: scale(1) rotate(0deg);
+    transition: all 0.6s ease 0.4s;
+}
+
+/* Posiciones fijas para intercambio */
+
+/* Posición arriba */
+.pos-arriba {
+    order: 1; /* primer lugar en flexbox */
+    transform: translateY(0);
+    transition: all 0.6s ease;
+}
+
+.pos-arriba .hover-text {
+    font-size: 2.2rem;
+    opacity: 0.7;
+    color: #bbb;
+}
+
+/* Posición centro (principal) */
+.pos-centro {
+    order: 2; /* segundo lugar en flexbox */
+    transform: translateY(0);
+    transition: all 0.6s ease;
+}
+
+.pos-centro .hover-text {
+    font-size: 5rem;
+    opacity: 1;
+    color: white;
+}
+
+/* Posición abajo */
+.pos-abajo {
+    order: 3; /* Tercer lugar en flexbox */
+    transform: translateY(0);
+    transition: all 0.6s ease;
+}
+
+.pos-abajo .hover-text {
+    font-size: 2.2rem;
+    opacity: 0.7;
+    color: #bbb;
+}
