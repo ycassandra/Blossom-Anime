@@ -8,7 +8,7 @@ body {
     background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
     overflow: hidden;
     font-family: 'Press Start 2P', monospace;
-    -webkit-font-smoothing: none;
+    -webkit-font-smoothing: none; /* This value should be 'auto', 'antialiased', or 'subpixel-antialiased' */
     -moz-osx-font-smoothing: grayscale;
     image-rendering: pixelated;
     text-rendering: optimizeSpeed;
@@ -32,11 +32,11 @@ body {
 }
 
 @keyframes float {
-    0%, 100% { 
-        transform: translate(-50%, -50%) translateY(0px); 
+    0%, 100% {
+        margin-top: 0px;
     }
-    50% { 
-        transform: translate(-50%, -50%) translateY(-20px); 
+    50% {
+        margin-top: -20px;
     }
 }
 
@@ -58,7 +58,7 @@ body {
 /* GIFS de anime que salen flotando */
 .anime-gif-container {
     position: fixed;
-    pointer-events: none;
+    pointer-events: auto;
     z-index: 1000;
     text-align: center;
     opacity: 0;
@@ -78,9 +78,28 @@ body {
     border: 3px solid #fecfef;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
     object-fit: cover;
-    animation: floatGif 3s ease-in-out infinite;
     display: block;
     margin: 0 auto;
+    transition: transform 0.3s ease;
+    animation: floatGif 3s ease-in-out infinite;
+}
+
+.anime-gif-container:hover .anime-gif {
+    transform: scale(1.5);
+}
+
+/* Animación flotante Gifs */
+@keyframes floatGif {
+    0%, 100% {
+        margin-top: 0px;
+    }
+    50% {
+        margin-top: -10px;
+    }
+}
+
+.anime-gif-container .anime-gif {
+    animation: floatGif 3s ease-in-out infinite;
 }
 
 .anime-name {
@@ -98,14 +117,16 @@ body {
     animation-delay: 0.5s;
 }
 
-/* Animación flotante Gifs */
-@keyframes floatGif {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-    50% {
-        transform: translateY(-15px) rotate(5deg);
-    }
+.anime-gif-container.hide {
+    transform: scale(0) rotate(180deg);
+    opacity: 0;
+    transition: all 0.5s ease-in;
+}
+
+.anime-gif-container:hover .anime-name {
+    font-size: 14px;
+    transform: scale(1.2);
+    transition: all 0.3s ease;
 }
 
 /* Animación flotante texto de animes */
@@ -118,11 +139,27 @@ body {
     }
 }
 
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.gif-desaparecer {
+  animation: fadeOut 0.5s ease forwards;
+}
+
+
 .sparkle {
     position: fixed;
     width: 6px;
     height: 6px;
-    background: #ffeb3b;
+    background: #ffffff;
     pointer-events: none;
     z-index: 999;
     border-radius: 50%;
@@ -187,4 +224,16 @@ body {
     font-size: 12px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     text-align: center;
+    animation: floatTextIntro 3s ease-in-out infinite;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+
+@keyframes floatTextIntro {
+    0%, 100% {
+        margin-bottom: 0px;
+    }
+    50% {
+        margin-bottom: 10px;
+    }
 }
