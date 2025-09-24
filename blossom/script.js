@@ -1,11 +1,17 @@
 const flowerImage = document.getElementById('flowerImage');
+const instructionText = document.querySelector('.instruction');
 let clickCount = 0;
 let gifsVisible = false; // variable para saber si gifs están visibles
 
 // Efectos al hacer click en la flor - ¡GIFS DE ANIME FLOTANTES!
-flowerImage.addEventListener('click', function(e) {
+flowerImage.addEventListener('click', function() {
     clickCount++;
-    
+    // Ocultar el texto de instrucción al hacer clic en la flor
+if (instructionText) {
+    instructionText.style.opacity = '0';
+    instructionText.style.transform = 'scale(0.8)';
+}
+
     // Limpiar gifs anteriores si existen
     const oldGifs = document.querySelectorAll('.anime-gif-container');
     oldGifs.forEach(gif => gif.remove());
@@ -18,17 +24,12 @@ flowerImage.addEventListener('click', function(e) {
         createAnimeGifs();
         createSparkles(); // Brillitos blancos
         gifsVisible = true;
-        } else { // si estan visibles ocultarlos
+    } else {
+        // si estan visibles, ocultarlos
         closeAnimeGifs();
         gifsVisible = false;
-        }
-    
-    // Crear GIFs de anime flotantes en posiciones fijas
-    createAnimeGifs();
-    
-    // Crear brillitos
-    createSparkles();
-    
+    }
+
     // Restaurar animación de flotación
     setTimeout(() => {
         flowerImage.style.animation = 'float 3s ease-in-out infinite';
@@ -40,24 +41,22 @@ function closeAnimeGifs() {
     const gifs = document.querySelectorAll('.anime-gif-container');
     gifs.forEach((gif, index) => {
         setTimeout(() => {
-// Animacion de desaparición
-gif.style.transition = 'all 0.5s ease-in';
-gif.style.transform = 'scale(0) rotate(180deg)';
-gif.style.opacity = '0';
+            gif.classList.remove('show');
+            gif.classList.add('hide');
 
-//Eliminar despues la animación 
-setTimeout(() => {
-    if (gif.parentNode)
-    {
-        
+            //Eliminar despues la animación 
+            setTimeout(() => {
+                if (gif.parentNode) {
+                    gif.parentNode.removeChild(gif);
+                }
+            }, 500);
+        }, index * 100); // Delay progresivo para que se vayan uno por uno
+    });
 }
-
 
 // Crear gifs de anime que flotan en posiciones fijas
 function createAnimeGifs() {
     const rect = flowerImage.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
 
     // datos de GIFs de anime con sus nombres
     const animeData = [
@@ -107,34 +106,31 @@ function createAnimeGifs() {
         { x: window.innerWidth * 0.5, y: window.innerHeight * 0.9 }   // abajo centro
     ];
 
-    // Crear cada Gif en su posicion fija
     for (let i = 0; i < Math.min(animeData.length, positions.length); i++) {
         setTimeout(() => {
             const container = document.createElement('div');
             container.className = 'anime-gif-container';
             
-            const gif = document.createElement('img'); 
+            const gif = document.createElement('img');
             gif.className = 'anime-gif';
             gif.src = animeData[i].gif;
-            
+
             const name = document.createElement('div');
             name.className = 'anime-name';
             name.textContent = animeData[i].name;
-            
+
             container.appendChild(gif);
             container.appendChild(name);
 
-            // posicionar en lugar fijo
-            container.style.left = positions[i].x - 40 + 'px'; // centrar el gif
+            container.style.left = positions[i].x - 40 + 'px';
             container.style.top = positions[i].y - 40 + 'px';
-            
+
             document.body.appendChild(container);
 
             // Animación de aparición
             setTimeout(() => {
-                container.classList.add('show'); 
+                container.classList.add('show');
             }, 100);
-            
         }, i * 400); // Delay entre aparición
     }
 }
@@ -154,15 +150,14 @@ function createSparkles() {
         sparkle.style.animationDelay = Math.random() * 0.8 + 's';
 
         // colores de brillitos aleatorios
-        const sparkleColors = ['#ffeb3b', '#ff4081', '#a87dfe', '#4caf50', '#ff9800'];
-        sparkle.style.background = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
-
+        sparkle.style.background = '#ffffff'
+        sparkle.style.boxShadow = '0 0 6px rgba(255, 255, 255, 0.8)';
         document.body.appendChild(sparkle);
         setTimeout(() => {
             if (sparkle.parentNode) {
                 sparkle.parentNode.removeChild(sparkle);
             }
-        }, 2000);    
+        }, 3000);    
     }
 }
 
@@ -199,6 +194,22 @@ function createFallingPetal() {
         }
     }, duration);
 }
+
+// Crear pétalos cada cierto tiempo
+setInterval(createFallingPetal, 300);
+
+// Crear algunos pétalos iniciales
+for (let i = 0; i < 10; i++) {
+    setTimeout(createFallingPetal, i * 200);
+}
+
+const gif = document.querySelector('.gif');
+
+gif.classList.add('gif-desaparecer');
+
+gif.addEventListener('animationend', () => {
+  gif.remove(); // Elimina el GIF del DOM después de la animación
+});
 
 // Crear pétalos cada cierto tiempo
 setInterval(createFallingPetal, 300);
